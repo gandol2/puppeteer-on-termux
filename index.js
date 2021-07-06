@@ -31,7 +31,7 @@ async function uaCheck() {
   var url = "https://www.whatsmyua.info/";
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: ["--no-sandbox", "--disable-gpu"],
   });
   /*
