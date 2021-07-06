@@ -1,29 +1,54 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
+const puppeteer = require("puppeteer");
+const fs = require("fs");
 
-screenshot('https://example.com').then(() => console.log('screenshot saved'));
+//screenshot("https://example.com").then(() => console.log("screenshot saved"));
 
 async function screenshot(url) {
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-      "--no-sandbox",
-      "--disable-gpu",
-    ]
+    args: ["--no-sandbox", "--disable-gpu"],
   });
 
   const page = await browser.newPage();
-  await page.setViewport({width: 1920, height: 1080});
+  await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url, {
     timeout: 0,
-    waitUntil: 'networkidle0',
+    waitUntil: "networkidle0",
   });
-  const screenData = await page.screenshot({encoding: 'binary', type: 'jpeg', quality: 100});
+  const screenData = await page.screenshot({ encoding: "binary", type: "jpeg", quality: 100 });
   if (!!screenData) {
-    fs.writeFileSync('screenshots/screenshot.jpg', screenData);
+    fs.writeFileSync("screenshots/screenshot.jpg", screenData);
   } else {
-    throw Error('Unable to take screenshot');
+    throw Error("Unable to take screenshot");
   }
+
+  await page.close();
+  await browser.close();
+}
+
+uaCheck().then(() => console.log("uaeragent Check Done!"));
+async function uaCheck() {
+  var url = "https://www.whatsmyua.info/";
+
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox", "--disable-gpu"],
+  });
+
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
+  await page.goto(url, {
+    timeout: 0,
+    waitUntil: "networkidle0",
+  });
+
+  console.log("connected!");
+  var uaString = await page.evaluate(() => {
+    var uaString = document.querySelector("textarea#custom-ua-string").value;
+    console.log(uaString);
+    return uaString;
+  });
+  console.log(uaString);
 
   await page.close();
   await browser.close();
