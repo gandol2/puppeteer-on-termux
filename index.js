@@ -34,8 +34,17 @@ async function uaCheck() {
     headless: true,
     args: ["--no-sandbox", "--disable-gpu"],
   });
+  /*
+  browser.setUserAgent(
+    "Mozilla/5.0 (Linux; Android 7.1.2; SM-G977N Build/LMY48Z; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.163 Whale/1.0.0.0 Crosswalk/25.80.14.28 Mobile Safari/537.36 NAVER(inapp; search; 1000; 11.4.2)"
+  );
+  */
 
   const page = await browser.newPage();
+  await page.setUserAgent(
+    "Mozilla/5.0 (Linux; Android 7.1.2; SM-G977N Build/LMY48Z; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/80.0.3987.163 Whale/1.0.0.0 Crosswalk/25.80.14.28 Mobile Safari/537.36 NAVER(inapp; search; 1000; 11.4.2)"
+  );
+
   await page.setViewport({ width: 1920, height: 1080 });
   await page.goto(url, {
     timeout: 0,
